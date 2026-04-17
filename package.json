@@ -1,6 +1,6 @@
 {
   "name": "oauth-account-switcher",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Windows desktop app that helps you switch Codex accounts before reopening the app.",
   "private": false,
   "type": "module",
