@@ -9,14 +9,9 @@ describe('resolvePreloadPath', () => {
     );
   });
 
-  it('uses the packaged dist-electron preload path when running from app.asar', () => {
+  it('uses the packaged source preload path when running from app.asar', () => {
     expect(resolvePreloadPath('C:/Program Files/OAuth Account Switcher/resources/app.asar')).toBe(
-      path.join(
-        'C:/Program Files/OAuth Account Switcher/resources/app.asar',
-        'dist-electron',
-        'electron',
-        'preload.cjs'
-      )
+      path.join('C:/Program Files/OAuth Account Switcher/resources/app.asar', 'electron', 'preload.cjs')
     );
   });
 });
