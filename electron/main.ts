@@ -15,7 +15,10 @@ import {
   isAuthBundleExpired,
   parseAuthBundle
 } from '../src/core/authBundle.js';
-import { buildCodexTerminationScript } from '../src/core/codexRestart.js';
+import {
+  buildCodexTerminationScript,
+  toCodexTerminationErrorMessage
+} from '../src/core/codexRestart.js';
 import { chooseRecommendedAccount } from '../src/core/recommendation.js';
 import { CatalogStore } from '../src/core/storage.js';
 import { createAesSecretBox } from '../src/core/security/createAesSecretBox.js';
@@ -503,11 +506,15 @@ async function switchRecommendedAccount(): Promise<DashboardPayload> {
 }
 
 async function terminateCodex(): Promise<DashboardPayload> {
-  await execFileAsync('powershell.exe', [
-    '-NoProfile',
-    '-Command',
-    buildCodexTerminationScript()
-  ]);
+  try {
+    await execFileAsync('powershell.exe', [
+      '-NoProfile',
+      '-Command',
+      buildCodexTerminationScript()
+    ]);
+  } catch (error) {
+    throw new Error(toCodexTerminationErrorMessage(error));
+  }
 
   return buildDashboard();
 }
