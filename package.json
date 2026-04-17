@@ -1,0 +1,86 @@
+{
+  "name": "oauth-account-switcher",
+  "version": "0.1.0",
+  "description": "Windows desktop app that helps you switch Codex accounts before reopening the app.",
+  "private": false,
+  "type": "module",
+  "main": "dist-electron/electron/main.js",
+  "author": "Codex Packaging Setup",
+  "scripts": {
+    "build:renderer": "vite build",
+    "build:main": "tsc -p tsconfig.node.json",
+    "build": "npm run build:renderer && npm run build:main",
+    "start": "npm run build && electron .",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "screenshots:capture": "node scripts/capture-release-assets.mjs",
+    "dist": "npm run build && electron-builder --win nsis zip",
+    "dist:win": "npm run dist",
+    "release:local": "npm run screenshots:capture && npm run dist:win"
+  },
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.24.0",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/node": "^22.15.17",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@vitejs/plugin-react": "^4.4.1",
+    "electron": "^35.2.1",
+    "electron-builder": "^25.1.8",
+    "eslint": "^9.24.0",
+    "globals": "^16.0.0",
+    "jsdom": "^26.0.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.29.0",
+    "vite": "^6.3.5",
+    "vitest": "^3.1.1"
+  },
+  "build": {
+    "appId": "com.codex.oauth-account-switcher",
+    "productName": "OAuth Account Switcher",
+    "artifactName": "${productName}-${version}-${arch}.${ext}",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*",
+      "package.json",
+      "!**/*.map"
+    ],
+    "extraMetadata": {
+      "main": "dist-electron/electron/main.js"
+    },
+    "asar": true,
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": "always",
+      "createStartMenuShortcut": true,
+      "shortcutName": "OAuth Account Switcher"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+node_modules/
+dist/
+dist-electron/
+release/
+.debug/
+.tmp/
+
+.DS_Store
+Thumbs.db
+
+.oauth-account-switcher/
+*.log
