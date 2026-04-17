@@ -19,6 +19,7 @@ import {
   buildCodexTerminationScript,
   toCodexTerminationErrorMessage
 } from '../src/core/codexRestart.js';
+import { resolvePreloadPath } from '../src/core/electronPaths.js';
 import { chooseRecommendedAccount } from '../src/core/recommendation.js';
 import { CatalogStore } from '../src/core/storage.js';
 import { createAesSecretBox } from '../src/core/security/createAesSecretBox.js';
@@ -520,6 +521,7 @@ async function terminateCodex(): Promise<DashboardPayload> {
 }
 
 function createMainWindow(): BrowserWindow {
+  const preloadPath = resolvePreloadPath(app.getAppPath());
   const window = new BrowserWindow({
     width: 1280,
     height: 860,
@@ -529,7 +531,7 @@ function createMainWindow(): BrowserWindow {
     backgroundColor: '#f4f1ea',
     autoHideMenuBar: true,
     webPreferences: {
-      preload: path.join(app.getAppPath(), 'electron', 'preload.cjs'),
+      preload: preloadPath,
       contextIsolation: true,
       nodeIntegration: false,
       sandbox: false
